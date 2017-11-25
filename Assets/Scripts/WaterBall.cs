@@ -30,4 +30,12 @@ public class WaterBall : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Enemy"))
+        {
+            print("hit enemey " + other.name);
+        }
+    }
 }

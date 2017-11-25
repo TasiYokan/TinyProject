@@ -58,8 +58,9 @@ public class Player : MonoBehaviour
         {
             WaterBall waterBall = GameObject.Instantiate(
                 Resources.Load("Prefabs/WaterBall") as GameObject,
-                transform.position,
-                Quaternion.identity
+                headTrans.position,
+                Quaternion.identity,
+                transform
                 ).GetComponent<WaterBall>();
             //waterBall.transform.position = transform.position;
             //waterBall.transform.forward = headTrans.forward;
