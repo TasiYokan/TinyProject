@@ -9,9 +9,14 @@ public class Player : MonoBehaviour
     public Transform headTrans;
     private Vector3 m_lookPos;
 
+    private Vector3 leftDown;
+    private Vector3 rightUp;
+    public float boundaryThickness = 0.3f;
+
     // Use this for initialization
     void Start()
     {
+        FindRoomCornerPoints(out leftDown, out rightUp);
     }
 
     // Update is called once per frame
@@ -39,6 +44,7 @@ public class Player : MonoBehaviour
         {
             transform.position += headTrans.forward * m_motion.z * speed * faceDir.magnitude;
         }
+        ClampPlayerPos();
 
         AttackCheck();
     }
@@ -54,7 +60,7 @@ public class Player : MonoBehaviour
 
     private void AttackCheck()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             WaterBall waterBall = GameObject.Instantiate(
                 Resources.Load("Prefabs/WaterBall") as GameObject,
@@ -66,5 +72,36 @@ public class Player : MonoBehaviour
             //waterBall.transform.forward = headTrans.forward;
             waterBall.StartCoroutine(waterBall.Launch(0.5f, headTrans.forward));
         }
+    }
+
+    public void FindRoomCornerPoints(out Vector3 leftDown, out Vector3 rightUp)
+    {
+        RaycastHit hitInfoLeft;
+        Physics.Raycast(transform.position, Vector3.left, out hitInfoLeft, 100, 1 << LayerMask.NameToLayer("Wall"));
+        Debug.DrawLine(transform.position, hitInfoLeft.transform.position, Color.red);
+
+        RaycastHit hitInfoRight;
+        Physics.Raycast(transform.position, Vector3.right, out hitInfoRight, 100, 1 << LayerMask.NameToLayer("Wall"));
+        Debug.DrawLine(transform.position, hitInfoRight.transform.position, Color.red);
+
+        RaycastHit hitInfoFoward;
+        Physics.Raycast(transform.position, Vector3.forward, out hitInfoFoward, 100, 1 << LayerMask.NameToLayer("Wall"));
+        Debug.DrawLine(transform.position, hitInfoFoward.transform.position, Color.red);
+
+        RaycastHit hitInfoBackward;
+        Physics.Raycast(transform.position, Vector3.back, out hitInfoBackward, 100, 1 << LayerMask.NameToLayer("Wall"));
+        Debug.DrawLine(transform.position, hitInfoBackward.transform.position, Color.red);
+
+        leftDown = new Vector3(hitInfoLeft.transform.position.x + boundaryThickness, hitInfoBackward.transform.position.z + boundaryThickness);
+        rightUp = new Vector3(hitInfoRight.transform.position.x - boundaryThickness, hitInfoFoward.transform.position.z - boundaryThickness);
+        return;
+    }
+
+    private void ClampPlayerPos()
+    {
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, leftDown.x, rightUp.x),
+            0,
+            Mathf.Clamp(transform.position.z, leftDown.y, rightUp.y));
     }
 }

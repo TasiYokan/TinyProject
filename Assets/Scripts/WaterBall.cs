@@ -36,6 +36,7 @@ public class WaterBall : MonoBehaviour
         if(other.CompareTag("Enemy"))
         {
             print("hit enemey " + other.name);
+            other.transform.parent.GetComponent<Enemy>().IsFrozen = true;
         }
     }
 }
