@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     public float speed = 1;
     public float boundaryThickness = 0.3f;
 
+    public TextMesh countDownTxt;
+
     public bool IsActive
     {
         get
@@ -68,6 +70,9 @@ public class Enemy : MonoBehaviour
 
         if (IsActive == false)
             return;
+
+        countDownTxt.transform.rotation = Quaternion.identity;
+        countDownTxt.transform.Rotate(Vector3.right, 60, Space.World);
     }
 
     public IEnumerator WalkingAround()
@@ -76,7 +81,16 @@ public class Enemy : MonoBehaviour
         {
             if (m_isFrozen)
             {
-                yield return new WaitForSeconds(2);
+                countDownTxt.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                int cd = 2;
+                while (cd > 0)
+                {
+                    countDownTxt.text = cd.ToString();
+                    yield return new WaitForSeconds(1);
+                    cd--;
+                }
+
+                countDownTxt.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 m_isFrozen = false;
 
                 targetPos = AssignPosInRoom();
