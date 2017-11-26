@@ -38,9 +38,27 @@ public class Player : MonoBehaviour
     void Update()
     {
         UpdateMouseHitPos();
+        MovementTypeB();
 
+        ClampPlayerPos();
+
+        AttackCheck();
+    }
+
+    private void MovementTypeB()
+    {
         m_motion = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        //transform.position += m_motion * speed;
+        transform.position += m_motion * speed;
+
+        if (m_isConfused == false)
+            headTrans.forward = (m_lookPos - headTrans.position).SetY(0);
+        else
+            headTrans.forward = Quaternion.AngleAxis(10, Vector3.up) * headTrans.forward;
+    }
+
+    private void MovementTypeA()
+    {
+        m_motion = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         if (m_isConfused == false)
             headTrans.forward = (m_lookPos - headTrans.position).SetY(0);
@@ -48,12 +66,6 @@ public class Player : MonoBehaviour
             headTrans.forward = Quaternion.AngleAxis(10, Vector3.up) * headTrans.forward;
 
         Vector3 faceDir = (m_lookPos - headTrans.position).SetY(0);
-
-        if (faceDir.magnitude > 0.1f)
-        {
-            //float angle = Vector3.SignedAngle(transform.forward, faceDir, Vector3.up) * 1f;
-            //transform.Rotate(Vector3.up, angle, Space.World);
-        }
 
         if (faceDir.magnitude > 0.5f)
         {
@@ -63,9 +75,6 @@ public class Player : MonoBehaviour
         {
             transform.position += headTrans.forward * m_motion.z * speed * faceDir.magnitude;
         }
-        ClampPlayerPos();
-
-        AttackCheck();
     }
 
     private void UpdateMouseHitPos()
