@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     public float boundaryThickness = 0.3f;
 
     public TextMesh countDownTxt;
+    public Transform alertCircle;
 
     public bool IsActive
     {
@@ -73,6 +74,14 @@ public class Enemy : MonoBehaviour
 
         countDownTxt.transform.rotation = Quaternion.identity;
         countDownTxt.transform.Rotate(Vector3.right, 60, Space.World);
+
+        UpdateAlertRange();
+    }
+
+    private void UpdateAlertRange()
+    {
+        float range = Mathf.Sin(Time.time) * 5;
+        alertCircle.localScale = alertCircle.localScale.SetX(range).SetZ(range);
     }
 
     public IEnumerator WalkingAround()

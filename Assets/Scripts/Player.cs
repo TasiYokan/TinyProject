@@ -12,6 +12,21 @@ public class Player : MonoBehaviour
     private Vector3 leftDown;
     private Vector3 rightUp;
     public float boundaryThickness = 0.3f;
+    [SerializeField]
+    private bool m_isConfused = false;
+
+    public bool IsConfused
+    {
+        get
+        {
+            return m_isConfused;
+        }
+
+        set
+        {
+            m_isConfused = value;
+        }
+    }
 
     // Use this for initialization
     void Start()
@@ -27,7 +42,11 @@ public class Player : MonoBehaviour
         m_motion = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         //transform.position += m_motion * speed;
 
-        headTrans.forward = (m_lookPos - headTrans.position).SetY(0);
+        if (m_isConfused == false)
+            headTrans.forward = (m_lookPos - headTrans.position).SetY(0);
+        else
+            headTrans.forward = Quaternion.AngleAxis(10, Vector3.up) * headTrans.forward;
+
         Vector3 faceDir = (m_lookPos - headTrans.position).SetY(0);
 
         if (faceDir.magnitude > 0.1f)
@@ -60,7 +79,7 @@ public class Player : MonoBehaviour
 
     private void AttackCheck()
     {
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             WaterBall waterBall = GameObject.Instantiate(
                 Resources.Load("Prefabs/WaterBall") as GameObject,
