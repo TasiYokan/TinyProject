@@ -83,7 +83,11 @@ public class Player : MonoBehaviour
             Animator.SetTrigger("Idle");
 
             if (m_isConfused == false)
-                transform.forward = (m_lookPos - transform.position).SetY(0);
+            {
+                //transform.forward = (m_lookPos - transform.position).SetY(0);
+                transform.forward = Vector3.Slerp(transform.forward, (m_lookPos - transform.position).SetY(0), 0.1f);
+                //print("angle between " + Vector3.Angle(transform.forward, (m_lookPos - transform.position).SetY(0)));
+            }
         }
     }
 
