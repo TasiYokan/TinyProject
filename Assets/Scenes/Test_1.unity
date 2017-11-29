@@ -155,6 +155,7 @@ MonoBehaviour:
   speed: 0.15
   headTrans: {fileID: 1391108746}
   boundaryThickness: 1
+  m_isConfused: 0
 --- !u!54 &177779577
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -201,7 +202,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 44df1ac3226d3c1409a509db6e74ece8, type: 2}
+  - {fileID: 2100000, guid: 3e64b03a50cb53843996c0866fb08891, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -469,7 +470,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 44df1ac3226d3c1409a509db6e74ece8, type: 2}
+  - {fileID: 2100000, guid: fa3a38e45ffd29347a6eda00ed6dd7c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -553,7 +554,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 44df1ac3226d3c1409a509db6e74ece8, type: 2}
+  - {fileID: 2100000, guid: 3e64b03a50cb53843996c0866fb08891, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -635,7 +636,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 44df1ac3226d3c1409a509db6e74ece8, type: 2}
+  - {fileID: 2100000, guid: 3e64b03a50cb53843996c0866fb08891, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -729,6 +730,11 @@ Prefab:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 23414481205281236, guid: b1a8c8d51989e774f8fb2e89a287a328,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 44748a6227062c343926baa967d0dec8, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b1a8c8d51989e774f8fb2e89a287a328, type: 2}
   m_IsPrefabParent: 0
@@ -853,6 +859,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 23414481205281236, guid: b1a8c8d51989e774f8fb2e89a287a328,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 44748a6227062c343926baa967d0dec8, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b1a8c8d51989e774f8fb2e89a287a328, type: 2}
   m_IsPrefabParent: 0
@@ -969,7 +980,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 44df1ac3226d3c1409a509db6e74ece8, type: 2}
+  - {fileID: 2100000, guid: 3e64b03a50cb53843996c0866fb08891, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
