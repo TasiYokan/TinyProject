@@ -59,6 +59,29 @@ public class Player : MonoBehaviour
         ClampPlayerPos();
 
         AttackCheck();
+
+        CheckScreenPosition();
+    }
+
+    private void CheckScreenPosition()
+    {
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+        //print("pos " + screenPos);
+
+        if(screenPos.x < 0.3f || screenPos.x > 0.7f
+            ||screenPos.y < 0.3f || screenPos.y > 0.7f)
+        {
+            screenPos = new Vector3(
+                Mathf.Clamp(screenPos.x, 0.3f, 0.7f), 
+                Mathf.Clamp(screenPos.y, 0.3f, 0.7f), 
+                screenPos.z);
+
+            Vector3 worldPos = Camera.main.ViewportToWorldPoint(screenPos);
+            Vector3 offset = worldPos - transform.position;
+            //print("offset " + offset);
+
+            Camera.main.transform.position -= offset.SetY(0);
+        }
     }
 
     private void MovementTypeB()
