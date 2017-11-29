@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     private Vector3 m_motion;
     public float speed;
-    public Transform headTrans;
     private Vector3 m_lookPos;
 
     private Vector3 leftDown;
@@ -14,6 +13,8 @@ public class Player : MonoBehaviour
     public float boundaryThickness = 0.3f;
     [SerializeField]
     private bool m_isConfused = false;
+
+    private Animator m_animator;
 
     public bool IsConfused
     {
@@ -25,6 +26,21 @@ public class Player : MonoBehaviour
         set
         {
             m_isConfused = value;
+        }
+    }
+
+    public Animator Animator
+    {
+        get
+        {
+            if (m_animator == null)
+                m_animator = GetComponentInChildren<Animator>();
+            return m_animator;
+        }
+
+        set
+        {
+            m_animator = value;
         }
     }
 
@@ -49,11 +65,26 @@ public class Player : MonoBehaviour
     {
         m_motion = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         transform.position += m_motion * speed;
+        if (m_motion.sqrMagnitude.Sgn() > 0)
+            transform.forward = m_motion.normalized;
 
-        if (m_isConfused == false)
-            headTrans.forward = (m_lookPos - headTrans.position).SetY(0);
+        if (m_isConfused == true)
+            transform.forward = Quaternion.AngleAxis(10, Vector3.up) * transform.forward;
+
+        //print("speed " + (m_motion * speed).magnitude);
+        if ((m_motion * speed).magnitude > 0.01f)
+        {
+            Animator.SetBool("Move", true);
+            Animator.SetTrigger("Run");
+        }
         else
-            headTrans.forward = Quaternion.AngleAxis(10, Vector3.up) * headTrans.forward;
+        {
+            Animator.SetBool("Move", false);
+            Animator.SetTrigger("Idle");
+
+            if (m_isConfused == false)
+                transform.forward = (m_lookPos - transform.position).SetY(0);
+        }
     }
 
     private void MovementTypeA()
@@ -61,19 +92,19 @@ public class Player : MonoBehaviour
         m_motion = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         if (m_isConfused == false)
-            headTrans.forward = (m_lookPos - headTrans.position).SetY(0);
+            transform.forward = (m_lookPos - transform.position).SetY(0);
         else
-            headTrans.forward = Quaternion.AngleAxis(10, Vector3.up) * headTrans.forward;
+            transform.forward = Quaternion.AngleAxis(10, Vector3.up) * transform.forward;
 
-        Vector3 faceDir = (m_lookPos - headTrans.position).SetY(0);
+        Vector3 faceDir = (m_lookPos - transform.position).SetY(0);
 
         if (faceDir.magnitude > 0.5f)
         {
-            transform.position += headTrans.forward * m_motion.z * speed;
+            transform.position += transform.forward * m_motion.z * speed;
         }
         else if (faceDir.magnitude > 0.1f)
         {
-            transform.position += headTrans.forward * m_motion.z * speed * faceDir.magnitude;
+            transform.position += transform.forward * m_motion.z * speed * faceDir.magnitude;
         }
     }
 
@@ -92,13 +123,13 @@ public class Player : MonoBehaviour
         {
             WaterBall waterBall = GameObject.Instantiate(
                 Resources.Load("Prefabs/WaterBall") as GameObject,
-                headTrans.position,
+                transform.position,
                 Quaternion.identity,
-                transform
+                null
                 ).GetComponent<WaterBall>();
             //waterBall.transform.position = transform.position;
-            //waterBall.transform.forward = headTrans.forward;
-            waterBall.StartCoroutine(waterBall.Launch(0.5f, headTrans.forward));
+            //waterBall.transform.forward = transform.forward;
+            waterBall.StartCoroutine(waterBall.Launch(0.5f, transform.forward));
         }
     }
 

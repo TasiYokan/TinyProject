@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             IsActive = !IsActive;
         }
@@ -75,7 +75,8 @@ public class Enemy : MonoBehaviour
         countDownTxt.transform.rotation = Quaternion.identity;
         countDownTxt.transform.Rotate(Vector3.right, 60, Space.World);
 
-        UpdateAlertRange();
+        if (IsFrozen == false)
+            UpdateAlertRange();
     }
 
     private void UpdateAlertRange()

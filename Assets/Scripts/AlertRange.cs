@@ -5,19 +5,19 @@ public class AlertRange : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.parent.CompareTag("Player"))
+        if(other.transform.CompareTag("Player"))
         {
             //print("Plyer detected");
-            other.transform.parent.GetComponent<Player>().IsConfused = true;
+            other.transform.GetComponent<Player>().IsConfused = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.parent.CompareTag("Player"))
+        if (other.transform.CompareTag("Player"))
         {
             //print("Plyer disappear");
-            other.transform.parent.GetComponent<Player>().IsConfused = false;
+            other.transform.GetComponent<Player>().IsConfused = false;
         }
     }
 }

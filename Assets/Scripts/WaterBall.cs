@@ -24,7 +24,8 @@ public class WaterBall : MonoBehaviour
         while ((_lifeTime - elapseTime).Sgn() > 0)
         {
             elapseTime += Time.deltaTime;
-            transform.Translate(_dir * m_speed * Time.deltaTime);
+            //transform.Translate(_dir * m_speed * Time.deltaTime);
+            transform.position += _dir * m_speed * Time.deltaTime;
             yield return null;
         }
 
@@ -35,7 +36,7 @@ public class WaterBall : MonoBehaviour
     {
         if(other.CompareTag("Enemy"))
         {
-            print("hit enemey " + other.name);
+            //print("hit enemey " + other.name);
             other.transform.parent.GetComponent<Enemy>().IsFrozen = true;
         }
     }
