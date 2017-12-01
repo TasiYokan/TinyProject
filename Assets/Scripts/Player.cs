@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
 
     private Animator m_animator;
 
+    private Vector2 firstBoundary = new Vector2(0.4f, 0.6f);
+    private Vector2 secondaryBoundary = new Vector2(0.1f, 0.9f);
+
     public bool IsConfused
     {
         get
@@ -68,12 +71,12 @@ public class Player : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
         //print("pos " + screenPos);
 
-        if(screenPos.x < 0.3f || screenPos.x > 0.7f
-            ||screenPos.y < 0.3f || screenPos.y > 0.7f)
+        if (screenPos.x < secondaryBoundary.x || screenPos.x > secondaryBoundary.y
+            || screenPos.y < secondaryBoundary.x || screenPos.y > secondaryBoundary.y)
         {
             screenPos = new Vector3(
-                Mathf.Clamp(screenPos.x, 0.3f, 0.7f), 
-                Mathf.Clamp(screenPos.y, 0.3f, 0.7f), 
+                Mathf.Clamp(screenPos.x, secondaryBoundary.x, secondaryBoundary.y),
+                Mathf.Clamp(screenPos.y, secondaryBoundary.x, secondaryBoundary.y),
                 screenPos.z);
 
             Vector3 worldPos = Camera.main.ViewportToWorldPoint(screenPos);
@@ -81,6 +84,20 @@ public class Player : MonoBehaviour
             //print("offset " + offset);
 
             Camera.main.transform.position -= offset.SetY(0);
+        }
+        else if (screenPos.x < firstBoundary.x || screenPos.x > firstBoundary.y
+            || screenPos.y < firstBoundary.x || screenPos.y > firstBoundary.y)
+        {
+            screenPos = new Vector3(
+                Mathf.Clamp(screenPos.x, firstBoundary.x, firstBoundary.y),
+                Mathf.Clamp(screenPos.y, firstBoundary.x, firstBoundary.y),
+                screenPos.z);
+
+            Vector3 worldPos = Camera.main.ViewportToWorldPoint(screenPos);
+            Vector3 offset = worldPos - transform.position;
+            //print("offset " + offset);
+
+            Camera.main.transform.position -= offset.SetY(0) * 0.5f;
         }
     }
 
